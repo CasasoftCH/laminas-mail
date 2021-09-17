@@ -79,6 +79,16 @@ class Headers implements Countable, Iterator
         $emptyLine   = 0;
 
         // iterate the header lines, some might be continuations
+        // custom fix section
+        if (strpos($string, 'hoststar.hosting') !== false) {
+            // echo $string;
+            // we remove the additional X-HEADERS about spam etc which we don't need and are badly formatted
+            $endPos = strpos($string, 'X-Spam-Report');
+            if ($endPos !== false) {
+                $string = substr_replace($string, " ", $endPos);
+            }
+        }
+
         $lines = explode($EOL, $string);
         $total = count($lines);
         for ($i = 0; $i < $total; $i += 1) {
