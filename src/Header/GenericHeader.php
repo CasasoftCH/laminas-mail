@@ -51,6 +51,21 @@ class GenericHeader implements HeaderInterface, UnstructuredInterface
      */
     public static function splitHeaderLine($headerLine)
     {
+        if (mb_detect_encoding($headerLine, ['ASCII', 'UTF-8'], true) === 'UTF-8') {
+            // replace umlauts for validity check in ASCII
+            $headerLine = str_replace('ä', 'ae', $headerLine);
+            $headerLine = str_replace('Ä', 'ae', $headerLine);
+            $headerLine = str_replace('ö', 'oe', $headerLine);
+            $headerLine = str_replace('Ö', 'oe', $headerLine);
+            $headerLine = str_replace('ü', 'ue', $headerLine);
+            $headerLine = str_replace('Ü', 'ue', $headerLine);
+            $headerLine = str_replace('è', 'e', $headerLine);
+            $headerLine = str_replace('é', 'e', $headerLine);
+            $headerLine = str_replace('ê', 'e', $headerLine);
+            $headerLine = str_replace('à', 'a', $headerLine);
+            $headerLine = str_replace('á', 'a', $headerLine);
+            $headerLine = str_replace('â', 'a', $headerLine);
+        };
         $parts = explode(':', $headerLine, 2);
         if (count($parts) !== 2) {
             throw new Exception\InvalidArgumentException('Header must match with the format "name:value"');
