@@ -53,19 +53,10 @@ class GenericHeader implements HeaderInterface, UnstructuredInterface
     {
         if (mb_detect_encoding($headerLine, ['ASCII', 'UTF-8'], true) === 'UTF-8') {
             // replace umlauts for validity check in ASCII
-            $headerLine = str_replace('ä', 'ae', $headerLine);
-            $headerLine = str_replace('Ä', 'ae', $headerLine);
-            $headerLine = str_replace('ö', 'oe', $headerLine);
-            $headerLine = str_replace('Ö', 'oe', $headerLine);
-            $headerLine = str_replace('ü', 'ue', $headerLine);
-            $headerLine = str_replace('Ü', 'ue', $headerLine);
-            $headerLine = str_replace('è', 'e', $headerLine);
-            $headerLine = str_replace('é', 'e', $headerLine);
-            $headerLine = str_replace('ê', 'e', $headerLine);
-            $headerLine = str_replace('à', 'a', $headerLine);
-            $headerLine = str_replace('á', 'a', $headerLine);
-            $headerLine = str_replace('â', 'a', $headerLine);
-        };
+            $search = ['À','Á','Â','Ã','Ä','Å','Æ','Ç','È','É','Ê','Ë','Ì','Í','Î','Ï','Ð','Ñ','Ò','Ó','Ô','Õ','Ö','×','Ø','Ù','Ú','Û','Ü','Ý','Þ','ß','à','á','â','ã','ä','å','æ','ç','è','é','ê','ë','ì','í','î','ï','ð','ñ','ò','ó','ô','õ','ö','÷','ø','ù','ú','û','ü','ý','þ','ÿ','Ă','ă','Ą','ą','Ć','ć','Č','č','Ď','ď','Đ','đ','Ę','ę','Ě','ě','Ĺ','ĺ','Ľ','ľ','Ł','ł','Ń','ń','Ň','ň','Ő','ő','Œ','œ','Ŕ','ŕ','Ř','ř','Ś','ś','Ş','ş','Š','š','Ţ','ţ','Ť','ť','Ů','ů','Ű','ű','Ÿ','Ź','ź','Ż','ż','Ž','ž','ƒ'];
+            $replace = ['A','A','A','A','AE','A','AE','C','E','E','E','E','I','I','I','I','ETH','N','O','O','O','O','OE','x','O','U','U','U','UE','Y','THORN','ss','a','a','a','a','ae','a','ae','c','e','e','e','e','i','i','i','i','o','n','o','o','o','oe','/','o','u','u','u','ue','y','thorn','y','A','a','C','c','C','c','D','d','D','d','E','e','E','e','L','l','L','l','L','l','N','n','N','n','OE','oe','OE','oe','R','r','R','r','S','s','S','s','S','s','T','t','T','t','U','u','UE','ue','Y','Z','z','Z','z','Z','z','f'];
+            $headerLine = str_replace($search, $replace, $headerLine);
+        }
         $parts = explode(':', $headerLine, 2);
         if (count($parts) !== 2) {
             throw new Exception\InvalidArgumentException('Header must match with the format "name:value"');
