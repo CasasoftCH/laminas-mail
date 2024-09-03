@@ -88,6 +88,7 @@ trait ProtocolTrait
                 'ssl' => [
                     'verify_peer_name' => false,
                     'verify_peer'      => false,
+                    'allow_self_signed' => $this->allowSelfSigned,
                 ]
             ]
             : [];
