@@ -22,6 +22,12 @@ trait ProtocolTrait
     protected $novalidatecert;
 
 
+    /**
+     * If set to true, allows self-signed ssl certificates.
+     * @var bool
+     */
+    protected $allowSelfSigned = false;
+
     public function getCryptoMethod(): int
     {
         // Allow the best TLS version(s) we can
@@ -51,6 +57,16 @@ trait ProtocolTrait
     }
 
     /**
+     * @param bool $allowSelfSigned Set to tro to allow self-signed certificates
+     * @return $this
+     */
+    public function setAllowSelfSigned(bool $allowSelfSigned)
+    {
+        $this->allowSelfSigned = $allowSelfSigned;
+        return $this;
+    }
+
+    /**
      * Should we validate SSL certificate?
      *
      * @return bool
@@ -72,6 +88,7 @@ trait ProtocolTrait
                 'ssl' => [
                     'verify_peer_name' => false,
                     'verify_peer'      => false,
+                    'allow_self_signed' => $this->allowSelfSigned,
                 ]
             ]
             : [];
