@@ -218,6 +218,10 @@ class Imap extends AbstractStorage implements Folder\FolderInterface, Writable\W
             $this->protocol->setNoValidateCert((bool)$params->novalidatecert);
         }
 
+        if (isset($params->allowSelfSigned)){
+            $this->protocol->setAllowSelfSigned((bool)$params->allowselfsigned);
+        }
+
         $this->protocol->connect($host, $port, $ssl);
         if (! $this->protocol->login($params->user, $password)) {
             throw new Exception\RuntimeException('cannot login, user or password wrong');
