@@ -83,15 +83,17 @@ trait ProtocolTrait
      */
     private function prepareSocketOptions(): array
     {
-        return $this->novalidatecert
-            ? [
-                'ssl' => [
-                    'verify_peer_name' => false,
-                    'verify_peer'      => false,
-                    'allow_self_signed' => $this->allowSelfSigned,
-                ]
-            ]
-            : [];
+        $options = [];
+        if ($this->novalidatecert) {
+            $options['ssl']['verify_peer'] = false;
+            $options['ssl']['verify_peer_name'] = false;
+        }
+
+        if ($this->allowSelfSigned) {
+            $options['ssl']['allow_self_signed'] = true;
+        }
+
+        return $options;
     }
 
     /**
